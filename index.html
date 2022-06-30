@@ -12,22 +12,44 @@
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/comic-mono@0.0.1/index.css">
-        <!-- per tumblr's theme example, posts on a blog are "ordered lists" (ol), and individual posts are points on the list (li elements) -->
 
         <style>
+
+            .flex {
+                display:flex;
+                justify-content: center;
+            }
+
+            .container {
+                /* flex container */
+            }
 
             body {
                 background: lightslategray;
                 font-family: "Comic Mono";
                 font-size: 16px;
             }
+
+            sidebar {
+                width: 250px;
+                height: 40%;
+                margin-top: 20px;
+                background: lightgray;
+                border-style: none;
+                padding: 5px;
+            }
             
             main {
-                margin-right: auto;
+                /* flex item that holds the posts */
             }
             
             ol {
                 list-style: none;
+            }
+
+            li {
+                margin-top: 5px;
+                margin-bottom: 5px;
             }
 
             li.text, li.photo, li.panorama, li.photoset,
@@ -39,42 +61,11 @@
                 padding: 5px;
             }
 
-            li {
-                margin-top: 5px;
-                margin-bottom: 5px;
-            }
-
-            sidebar {
-                width: 250px;
-                height: 40%;
-                margin-top: 20px;
-                background: lightgray;
-                margin-left: auto;
-                border-style: none;
-                padding: 5px;
-            }
-            
-            .flex {
-             display:flex;
-            }
-
-            @media (max-width: 1200px) {
-              sidebar {
-              display:none;
-              }
-              .container {
-                width: 100%;
-              }
-              main {
-                width: 100%;
-                margin-bottom: 0px;
-              }
-            }
-
         </style>
 
     </head>
     <body>
+    <!-- per tumblr's theme documentation and basic theme, posts on a blog are "ordered lists" (ol), and individual posts are points on the list (li elements) -->
         <div class="container">
             <div class="flex">
                 <sidebar>
@@ -87,51 +78,103 @@
 
                 <main>
                     <ol id="posts">
-                        {block:Posts}{block:Text}
+                        {block:Posts}  
+                                {block:Text}
                                 <li class="text">
                                     {block:Title}
                                         <h3><a href="{Permalink}">{Title}</a></h3>
-                                    {/block:Title}{Body}
+                                    {/block:Title}
+                                    {Body}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Text}{block:Photo}
+                            {/block:Text}
+                            {block:Photo}
                                 <li class="photo">
                                     <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
 
                                     {block:Caption}
                                         <div class="caption">{Caption}</div>
                                     {/block:Caption}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Photo}{block:Panorama}
+                            {/block:Photo}
+                            {block:Panorama}
                                 <li class="panorama">
                                     {LinkOpenTag}
                                         <img src="{PhotoURL-Panorama}" alt="{PhotoAlt}"/>
-                                    {LinkCloseTag}{block:Caption}
+                                    {LinkCloseTag}
+                                    {block:Caption}
                                         <div class="caption">{Caption}</div>
                                     {/block:Caption}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Panorama}{block:Photoset}
+                            {/block:Panorama}
+                            {block:Photoset}
                                 <li class="photoset">
-                                    {Photoset-500}{block:Caption}
+                                    {Photoset-500}
+                                    {block:Caption}
                                         <div class="caption">{Caption}</div>
                                     {/block:Caption}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Photoset}{block:Quote}
+                            {/block:Photoset}
+                            {block:Quote}
                                 <li class="quote">
                                     "{Quote}"
 
                                     {block:Source}
                                         <div class="source">{Source}</div>
                                     {/block:Source}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Quote}{block:Link}
+                            {/block:Quote}
+                            {block:Link}
                                 <li class="link-post">
                                     <a href="{URL}" class="link" {Target}>{Name}</a>
 
                                     {block:Description}
                                         <div class="description">{Description}</div>
                                     {/block:Description}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Link}{block:Chat}
+                            {/block:Link}
+                            {block:Chat}
                                 <li class="chat-post">
                                     {block:Title}
                                         <h3><a href="{Permalink}">{Title}</a></h3>
@@ -145,21 +188,47 @@
                                                 {/block:Label}{Line}
                                             </li>
                                         {/block:Lines}
+                                        {block:HasTags}
+                                        <div class="tags">
+                                            {block:Tags}
+                                                    <a href="{TagURL}">{Tag}</a>
+                                            {/block:Tags}
+                                        </div>
+                                        {/block:HasTags}
                                     </ul>
                                 </li>
-                            {/block:Chat}{block:Video}
+                            {/block:Chat}
+                            {block:Video}
                                 <li class="video">
-                                    {Video-500}{block:Caption}
+                                    {Video-500}
+                                    {block:Caption}
                                         <div class="caption">{Caption}</div>
                                     {/block:Caption}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Video}{block:Audio}
+                            {/block:Video}
+                            {block:Audio}
                                 <li class="audio">
-                                    {AudioEmbed}{block:Caption}
+                                    {AudioEmbed}
+                                    {block:Caption}
                                         <div class="caption">{Caption}</div>
                                     {/block:Caption}
+                                    {block:HasTags}
+                                    <div class="tags">
+                                        {block:Tags}
+                                                <a href="{TagURL}">{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    {/block:HasTags}
                                 </li>
-                            {/block:Audio}{/block:Posts}
+                            {/block:Audio}
+                        {/block:Posts}
                     </ol>
 
                     <p id="footer">
